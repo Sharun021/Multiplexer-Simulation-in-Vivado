@@ -1,4 +1,5 @@
 # SIMULATION AND IMPLEMENTATION OF MULTIPLEXER
+## SHARUN N (212223060257)
 
 ## AIM
 To design and simulate a 4:1 Multiplexer (MUX) using Verilog HDL in four different modeling styles—Gate-Level, Data Flow, Behavioral, and Structural—and to verify its functionality through a testbench using the Vivado 2023.1 simulation environment. The experiment aims to understand how different abstraction levels in Verilog can be used to describe the same digital logic circuit and analyze their performance.
@@ -62,44 +63,29 @@ To design and simulate a 4:1 Multiplexer (MUX) using Verilog HDL in four differe
 
 ### 4:1 MUX Gate-Level Implementation
 ```verilog
-module mux4_to_1_gate (
-    input wire A,
-    input wire B,
-    input wire C,
-    input wire D,
-    input wire S0,
-    input wire S1,
-    output wire Y
-);
-    wire not_S0, not_S1;
-    wire A_and, B_and, C_and, D_and;
-
-    not (not_S0, S0);
-    not (not_S1, S1);
-
-    and (A_and, A, not_S1, not_S0);
-    and (B_and, B, not_S1, S0);
-    and (C_and, C, S1, not_S0);
-    and (D_and, D, S1, S0);
-
-    or (Y, A_and, B_and, C_and, D_and);
+module mux41(s,a,b,c,d,y);
+input [0:1]s;
+input a,b,c,d;
+output y;
+wire [0:5]w;
+not g1(w[0],s[0]);
+not g2(w[1],s[1]);
+and g3(w[2],w[0],w[1],a);
+and g4(w[3],w[0],s[1],b);
+and g5(w[4],s[0],w[1],c);
+and g6(w[5],s[0],s[1],d);
+or o1(y,w[2],w[3],w[4],w[5]);
 endmodule
+
 ```
 ## Simulated Output Gate Level Modelling
 
-_______ Here Paste the Simulated output  ___________
+![image](https://github.com/user-attachments/assets/c087889b-ed07-46a1-a6f3-0588338848c5)
+
 
 ### 4:1 MUX Data Flow Implementation
 ```verilog
-module mux4_to_1_dataflow (
-    input wire A,
-    input wire B,
-    input wire C,
-    input wire D,
-    input wire S0,
-    input wire S1,
-    output wire Y
-);
+module mux4_to_1_dataflow (input wire A,input wire B,input wire C,input wire D,input wire S0,input wire S1,output wire Y);
     assign Y = (~S1 & ~S0 & A) |
                (~S1 & S0 & B) |
                (S1 & ~S0 & C) |
@@ -108,7 +94,8 @@ endmodule
 ```
 ## Simulated Output Data Flow Modelling
 
-_______ Here Paste the Simulated output  ___________
+![image](https://github.com/user-attachments/assets/ca0b831c-9706-4578-9ed3-16a1f6bb6bf5)
+
 
 ### 4:1 MUX Behavioral Implementation
 ```verilog
@@ -134,7 +121,8 @@ endmodule
 ```
 ## Simulated Output Behavioral Modelling
 
-_______ Here Paste the Simulated output  ___________
+![image](https://github.com/user-attachments/assets/93dfba07-ef97-41fa-934a-c41c4d9a8bc3)
+
 
 
 ### 4:1 MUX Structural Implementation
@@ -171,7 +159,8 @@ endmodule
 ```
 ## Simulated Output Structural Modelling
 
-_______ Here Paste the Simulated output  ___________
+![WhatsApp Image 2025-03-19 at 09 48 29_280f71b5](https://github.com/user-attachments/assets/718518f8-54ee-4b11-80c1-73fd7582a527)
+
 
 ### Testbench Implementation
 ```verilog
